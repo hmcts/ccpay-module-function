@@ -1,5 +1,5 @@
 locals {
-  storage_account_name = "${replace("${lower(("${var.function_app_name}${var.environment}funcsta"))}", "/[^a-z0-9]/","")}"
+  storage_account_name = "${replace("${lower(("${var.function_app_name}${var.env}funcsta"))}", "/[^a-z0-9]/","")}"
   app_service_plan_name = "${var.function_app_name}-${var.env}-plan"
   function_app_name = "${var.function_app_name}-${var.env}-func"
 }
