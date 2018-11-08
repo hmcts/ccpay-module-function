@@ -12,6 +12,7 @@ resource "azurerm_storage_account" "funcsta" {
   account_replication_type  = "${var.account_replication_type}"
   enable_blob_encryption    = true
   enable_file_encryption    = true
+  tags                      ="${var.common_tags}"
 }
 
 resource "azurerm_app_service_plan" "funcasp" {
@@ -25,6 +26,7 @@ resource "azurerm_app_service_plan" "funcasp" {
     size     = "${lower(var.plan_type) == "consumption" ? "Y1" : var.plan_settings["size"]}"
     capacity = "${lower(var.plan_type) == "consumption" ? 0 : var.plan_settings["capacity"]}"
   }
+  tags                      ="${var.common_tags}"
 }
 
 resource "azurerm_function_app" "funcapp" {
@@ -34,15 +36,6 @@ resource "azurerm_function_app" "funcapp" {
   app_service_plan_id       = "${azurerm_app_service_plan.funcasp.id}"
   storage_connection_string = "${azurerm_storage_account.funcsta.primary_connection_string}"
   version                   = "${var.function_version}"
-  app_settings {
-    # "APPINSIGHTS_INSTRUMENTATIONKEY" = "${azurerm_application_insights.test.instrumentation_key}"
-    "FUNCTIONS_EXTENSION_VERSION" = "~2"
-    "FUNCTIONS_WORKER_RUNTIME" = "node"
-    "WEBSITE_NODE_DEFAULT_VERSION" = "8.11.1"
-  }
-}
-
-# set up git deployment
-provisioner "local-exec" {
-  command = "${var.git_enabled ? join("", list("az functionapp deployment source config-local-git --ids ", azurerm_function_app.funcapp.id)) : "true"}"
+  tags                      = "${var.common_tags}"
+  app_settings              = "${jsonencode(merge(var.app_settings_defaults, var.app_settings))}"
 }

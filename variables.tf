@@ -17,7 +17,7 @@ variable "function_app_name" {
 }
 
 variable "function_version" {
-  default     = "~1"
+  default     = "~2"
   description = "The runtime version the function app should have."
 }
 
@@ -43,17 +43,24 @@ variable "app_settings" {
   description = "Application settings to insert on creating the function app. Following updates will be ignored, and has to be set manually. Updates done on application deploy or in portal will not affect terraform state file."
 }
 
-variable "tags" {
+variable "app_settings_defaults" {
+  type = "map"
+
+  default = {
+    FUNCTIONS_EXTENSION_VERSION = "~2"
+    FUNCTIONS_WORKER_RUNTIME = "node"
+    WEBSITE_NODE_DEFAULT_VERSION = "8.11.1"
+  }
+}
+
+variable "common_tags" {
   description = "A map of tags to add to all resources"
   type        = "map"
-
-  default = {}
 }
 
 variable "plan_type" {
   description = "What kind of plan to use (dedicated or consumption)"
 }
-
 
 variable "storage_account_name" {
   description = "The name of the storage account for WebJobs, default = $function_app_name"
@@ -63,11 +70,6 @@ variable "storage_account_name" {
 variable "service_plan_name" {
   description = "The name of the App Service Plan, default = $function_app_name"
   default     = ""
-}
-
-variable "git_enabled" {
-  description = "Set deployment mode to local git"
-  default     = true
 }
 
 variable "site_config" {
