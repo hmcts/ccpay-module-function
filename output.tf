@@ -11,7 +11,7 @@ output "storage_account_connection_string" {
 
 output "funcapp_name" {
   description = "Function App name (identical with input parameter..for now)"
-  value       = "${local.function_app_name}"
+  value       = "${azurerm_function_app.funcapp.name}"
 }
 
 output "funcapp_id" {

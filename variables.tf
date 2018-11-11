@@ -26,17 +26,6 @@ variable "account_replication_type" {
   description = "The Storage Account replication type. See azurerm_storage_account module for posible values."
 }
 
-variable "plan_settings" {
-  type        = "map"
-  description = "Definition of the dedicated plan to use"
-
-  default = {
-    kind     = "windows" # Linux or Windows
-    size     = "I1"
-    capacity = 1
-  }
-}
-
 variable "app_settings" {
   default     = {}
   type        = "map"
@@ -58,10 +47,6 @@ variable "common_tags" {
   type        = "map"
 }
 
-variable "plan_type" {
-  description = "What kind of plan to use (dedicated or consumption)"
-}
-
 variable "storage_account_name" {
   description = "The name of the storage account for WebJobs, default = $function_app_name"
   default     = ""
@@ -70,13 +55,4 @@ variable "storage_account_name" {
 variable "service_plan_name" {
   description = "The name of the App Service Plan, default = $function_app_name"
   default     = ""
-}
-
-variable "site_config" {
-  description = "A key-value pair for Site Config"
-  type        = "list"
-
-  default = [{
-    always_on = true
-  }]
 }
