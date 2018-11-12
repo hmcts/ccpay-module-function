@@ -56,3 +56,18 @@ variable "service_plan_name" {
   description = "The name of the App Service Plan, default = $function_app_name"
   default     = ""
 }
+
+variable "plan_settings" {
+  type        = "map"
+  description = "Definition of the dedicated plan to use"
+
+  default = {
+    kind     = "windows" # Linux or Windows
+    size     = "I1"
+    capacity = 1
+  }
+}
+
+variable "plan_type" {
+  description = "What kind of plan to use (dedicated or consumption)"
+}
