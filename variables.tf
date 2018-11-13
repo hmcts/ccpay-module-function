@@ -71,3 +71,11 @@ variable "plan_settings" {
 variable "plan_type" {
   description = "What kind of plan to use (dedicated or consumption)"
 }
+
+variable "site_config" {
+  description = "A key-value pair for Site Config"
+  type        = "list"
+  default = [{
+    always_on = true
+  }]
+}

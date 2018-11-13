@@ -1,11 +1,11 @@
 
 ## Create a Function App in Azure
 
-This terraform module deploys a Function App on consumption app service plan in Azure.
+This terraform module deploys a Function App on app service plan in Azure.
 
-Installs following resources
+Creates following resources automatically
 - Storage account
-- App service plan (Consumption)
+- App service plan
 - Function app
 
 ### Usage
@@ -18,6 +18,7 @@ module "function_app" {
   function_app_name = "payment-node"
   resource_group_name = "${var.resource_group_name}"
   account_replication_type = "LRS"
+  plan_type = "dedicated"
   common_tags = "${var.common_tags}"
   app_settings {
       "FUNCTIONS_EXTENSION_VERSION" = "~2"
@@ -38,8 +39,10 @@ The azure datacenter location where the resources should be created.
 The name for the function app.
 
 ##### account_replication_type
-The Storage Account replication type. See azurerm_storage_account module for posible values.
-Defaults to "LRS"
+The Storage Account replication type. See azurerm_storage_account module for posible values. Defaults to "LRS".
+
+##### plan_type
+The service plan to use (dedicated or consumption). Defaults to consumption. Can be customise dedicated plan using plan_settings variable.
 
 ##### app_settings
 Application settings to insert on creating the function app. 
@@ -48,8 +51,7 @@ Application settings to insert on creating the function app.
 The environment where the infrastructure is deployed.
 
 ##### function_version
-The runtime version the function app should have.
-Defaults to "~2"
+The runtime version the function app should have. Defaults to "~2"
 
 ### Outputs
 
@@ -57,7 +59,7 @@ Defaults to "~2"
 The name of the storage account created for the function app.
 
 ##### storage_account_connection_string
-The primarty connection string to the storage account created for the function app.
+The primary connection string to the storage account created for the function app.
 
 ##### funcapp_id
 The id of the created function app.
