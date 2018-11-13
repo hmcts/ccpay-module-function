@@ -36,7 +36,6 @@ variable "app_settings_defaults" {
   type = "map"
 
   default = {
-    FUNCTIONS_EXTENSION_VERSION = "~2"
     FUNCTIONS_WORKER_RUNTIME = "node"
     WEBSITE_NODE_DEFAULT_VERSION = "8.11.1"
   }
