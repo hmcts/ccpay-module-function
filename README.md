@@ -39,10 +39,10 @@ The azure datacenter location where the resources should be created.
 The name for the function app.
 
 ##### account_replication_type
-The Storage Account replication type. See azurerm_storage_account module for posible values. Defaults to "LRS".
+The Storage Account replication type. See azurerm_storage_account module for possible values. Defaults to "LRS".
 
 ##### plan_type
-The service plan to use (dedicated or consumption). Defaults to consumption. Can be customise dedicated plan using plan_settings variable.
+The service plan to use (dedicated or consumption). Defaults to consumption. Can be customised using plan_settings variable.
 
 ##### app_settings
 Application settings to insert on creating the function app. 
