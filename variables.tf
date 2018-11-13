@@ -63,7 +63,7 @@ variable "plan_settings" {
 
   default = {
     kind     = "windows" # Linux or Windows
-    size     = "S1"
+    size     = "S2"
     capacity = 1
   }
 }
