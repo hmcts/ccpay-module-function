@@ -40,6 +40,6 @@ resource "azurerm_function_app" "funcapp" {
   storage_connection_string = "${azurerm_storage_account.funcsta.primary_connection_string}"
   version                   = "${var.function_version}"
   tags                      = "${var.common_tags}"
-  app_settings              = "${merge(var.app_settings_defaults, var.app_settings)}"
+  app_settings              = "${var.app_settings}"
   site_config               = "${local.site_config}"
 }
