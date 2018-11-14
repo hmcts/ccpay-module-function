@@ -1,11 +1,10 @@
 
 ## Create a Function App in Azure
 
-This terraform module deploys a Function App on app service plan in Azure.
+This terraform module deploys a Function App on a given app service plan (shared) in Azure.
 
 Creates following resources automatically
 - Storage account
-- App service plan
 - Function app
 
 ### Usage
@@ -18,10 +17,10 @@ module "function_app" {
   function_app_name = "payment-node"
   resource_group_name = "${var.resource_group_name}"
   account_replication_type = "LRS"
-  plan_type = "dedicated"
+  app_service_plan_id = "${var.asp_resource_id}"
   common_tags = "${var.common_tags}"
   app_settings {
-      "FUNCTIONS_EXTENSION_VERSION" = "~2"
+      "FUNCTIONS_WORKER_RUNTIME" = "node"
     }
 }
 
@@ -41,8 +40,8 @@ The name for the function app.
 ##### account_replication_type
 The Storage Account replication type. See azurerm_storage_account module for possible values. Defaults to "LRS".
 
-##### plan_type
-The service plan to use (dedicated or consumption). Defaults to consumption. Can be customised using plan_settings variable.
+##### app_service_plan_id
+The service plan id to use.
 
 ##### app_settings
 Application settings to insert on creating the function app. 
