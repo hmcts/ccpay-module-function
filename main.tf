@@ -14,8 +14,10 @@ resource "azurerm_storage_account" "funcsta" {
   location                  = "${var.location}"
   account_replication_type  = "${var.account_replication_type}"
   account_tier              = "Standard"
+  account_kind              = "StorageV2"
   enable_blob_encryption    = true
   enable_file_encryption    = true
+  enable_https_traffic_only = true
   tags                      ="${var.common_tags}"
 }
 
