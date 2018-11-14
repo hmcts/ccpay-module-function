@@ -12,10 +12,6 @@ variable "resource_group_name" {
   description = "The resource group where the resources should be created."
 }
 
-variable "asp_resource_id" {
-  description = "The resource id of the app service plan to use."
-}
-
 variable "function_app_name" {
   description = "The name for the function app. Without environment naming."
 }
@@ -58,6 +54,21 @@ variable "storage_account_name" {
 variable "service_plan_name" {
   description = "The name of the App Service Plan, default = $function_app_name"
   default     = ""
+}
+
+variable "plan_settings" {
+  type        = "map"
+  description = "Definition of the dedicated plan to use"
+
+  default = {
+    kind     = "windows" # Linux or Windows
+    size     = "S1"
+    capacity = 1
+  }
+}
+
+variable "plan_type" {
+  description = "What kind of plan to use (dedicated or consumption)"
 }
 
 variable "site_config" {
