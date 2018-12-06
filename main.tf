@@ -16,7 +16,7 @@ resource "azurerm_storage_account" "funcsta" {
 }
 
 resource "azurerm_function_app" "funcapp" {
-  name                      = "${var.function_app_name}"
+  name                      = "${var.product}-${var.env}"
   location                  = "${var.location}"
   resource_group_name       = "${var.resource_group_name}"
   app_service_plan_id       = "${var.asp_resource_id}"
@@ -34,7 +34,7 @@ resource "random_integer" "makeDNSupdateRunEachTime" {
 
 resource "null_resource" "consul" {
   triggers {
-    trigger = "${var.function_app_name}",
+    trigger = "${azurerm_function_app.funcapp.name}",
     forceRun = "${random_integer.makeDNSupdateRunEachTime.result}"
   }
 
