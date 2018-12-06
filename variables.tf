@@ -1,3 +1,10 @@
+variable "product" {
+  type = "string"
+}
+
+variable "subscription" {
+  type = "string"
+}
 
 variable "location" {
   default     = "UK South"
@@ -6,6 +13,15 @@ variable "location" {
 
 variable "env" {
   description = "The environment where the infrastructure is deployed."
+}
+
+variable "ilbIp" {
+  default = "0.0.0.0"
+}
+
+variable "infra_location" {
+  type    = "string"
+  default = "core-infra"
 }
 
 variable "resource_group_name" {

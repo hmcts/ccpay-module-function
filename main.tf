@@ -26,3 +26,20 @@ resource "azurerm_function_app" "funcapp" {
   app_settings              = "${merge(var.app_settings_defaults, var.app_settings)}"
   site_config               = "${var.site_config}"
 }
+
+resource "random_integer" "makeDNSupdateRunEachTime" {
+  min     = 1
+  max     = 99999
+}
+
+resource "null_resource" "consul" {
+  triggers {
+    trigger = "${var.function_app_name}",
+    forceRun = "${random_integer.makeDNSupdateRunEachTime.result}"
+  }
+
+  # register dns
+  provisioner "local-exec" {
+    command = "bash -e ${path.module}/createDns.sh '${var.product}-${var.env}' 'core-infra-${var.env}' '${path.module}' '${var.ilbIp}' '${var.subscription}'"
+  }
+}
