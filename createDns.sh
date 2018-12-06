@@ -12,6 +12,7 @@ echo "-----------------------"
 echo $domain
 echo $rg
 echo $uri
+echo $ilbIp
 pwd
 echo "-----------------------"
 #get ip of consul
