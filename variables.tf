@@ -32,10 +32,6 @@ variable "asp_resource_id" {
   description = "The resource id of the app service plan to use."
 }
 
-variable "function_app_name" {
-  description = "The name for the function app. Without environment naming."
-}
-
 variable "function_version" {
   default     = "~2"
   description = "The runtime version the function app should have."
@@ -67,12 +63,12 @@ variable "common_tags" {
 }
 
 variable "storage_account_name" {
-  description = "The name of the storage account for WebJobs, default = $function_app_name"
+  description = "The name of the storage account for WebJobs"
   default     = ""
 }
 
 variable "service_plan_name" {
-  description = "The name of the App Service Plan, default = $function_app_name"
+  description = "The name of the App Service Plan"
   default     = ""
 }
 

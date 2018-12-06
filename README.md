@@ -14,7 +14,7 @@ module "function_app" {
   source = "git@github.com:hmcts/ccpay-module-function?ref=master"
   env = "${var.env}"
   location = "${var.location}"
-  function_app_name = "payment-node"
+  product = "${var.product}"
   resource_group_name = "${var.resource_group_name}"
   account_replication_type = "LRS"
   app_service_plan_id = "${var.asp_resource_id}"
@@ -34,7 +34,7 @@ The resource group where the resources should be created.
 ##### location
 The azure datacenter location where the resources should be created.
 
-##### function_app_name
+##### product
 The name for the function app.
 
 ##### account_replication_type
