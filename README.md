@@ -15,7 +15,6 @@ module "function_app" {
   env = "${var.env}"
   location = "${var.location}"
   product = "${var.product}"
-  resource_group_name = "${var.resource_group_name}"
   account_replication_type = "LRS"
   app_service_plan_id = "${var.asp_resource_id}"
   common_tags = "${var.common_tags}"
@@ -27,9 +26,6 @@ module "function_app" {
 ```
 
 ### Inputs
-
-##### resource_group_name
-The resource group where the resources should be created.
 
 ##### location
 The azure datacenter location where the resources should be created.

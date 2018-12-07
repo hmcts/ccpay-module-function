@@ -19,15 +19,6 @@ variable "ilbIp" {
   default = "0.0.0.0"
 }
 
-variable "infra_location" {
-  type    = "string"
-  default = "core-infra"
-}
-
-variable "resource_group_name" {
-  description = "The resource group where the resources should be created."
-}
-
 variable "asp_resource_id" {
   description = "The resource id of the app service plan to use."
 }
@@ -60,16 +51,6 @@ variable "app_settings_defaults" {
 variable "common_tags" {
   description = "A map of tags to add to all resources"
   type        = "map"
-}
-
-variable "storage_account_name" {
-  description = "The name of the storage account for WebJobs"
-  default     = ""
-}
-
-variable "service_plan_name" {
-  description = "The name of the App Service Plan"
-  default     = ""
 }
 
 variable "site_config" {
