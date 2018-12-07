@@ -1,5 +1,8 @@
 locals {
   storage_account_name = "${replace("${var.product}${var.env}", "-", "")}"
+  app_settings_evaluated = {
+    APPINSIGHTS_INSTRUMENTATIONKEY = "${azurerm_application_insights.appinsights.instrumentation_key}"
+  }
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -21,6 +24,17 @@ resource "azurerm_storage_account" "funcsta" {
   tags                      = "${var.common_tags}"
 }
 
+resource "azurerm_application_insights" "appinsights" {
+  name                = "${var.product}-appinsights-${var.env}"
+  location            = "${var.appinsights_location}"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
+  application_type    = "${var.application_type}"
+
+  tags = "${merge(var.common_tags,
+    map("lastUpdated", "${timestamp()}")
+    )}"
+}
+
 resource "azurerm_function_app" "funcapp" {
   name                      = "${var.product}-${var.env}"
   location                  = "${var.location}"
@@ -29,7 +43,7 @@ resource "azurerm_function_app" "funcapp" {
   storage_connection_string = "${azurerm_storage_account.funcsta.primary_connection_string}"
   version                   = "${var.function_version}"
   tags                      = "${var.common_tags}"
-  app_settings              = "${merge(var.app_settings_defaults, var.app_settings)}"
+  app_settings              = "${merge(var.app_settings_defaults, local.app_settings_evaluated, var.app_settings)}"
   site_config               = "${var.site_config}"
 }
 

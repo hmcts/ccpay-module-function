@@ -19,6 +19,19 @@ variable "ilbIp" {
   default = "0.0.0.0"
 }
 
+// as of now, UK South is unavailable for Application Insights
+variable "appinsights_location" {
+  type        = "string"
+  default     = "West Europe"
+  description = "Location for Application Insights"
+}
+
+variable "application_type" {
+  type        = "string"
+  default     = "Web"
+  description = "Type of Application Insights (Web/Other)"
+}
+
 variable "asp_resource_id" {
   description = "The resource id of the app service plan to use."
 }
