@@ -1,5 +1,5 @@
 locals {
-  storage_account_name = "${replace("${lower(("${var.product}-${var.env}sta"))}", "/[^a-z0-9]/","")}"
+  storage_account_name = "${replace("${lower(("${var.product}${var.env}sta"))}", "-", "")}"
 }
 
 resource "azurerm_resource_group" "rg" {
