@@ -36,6 +36,7 @@ register_dns () {
   sed -i -e "s/aseIlb/$ilbIp/g" "$tmp_dir/consul.json"
 
   curl -T "$tmp_dir/consul.json" "http://${consul}:8500/v1/agent/service/register"
+  curl -X POST -H "Content-Type: application/json" -d "{\"ID\":\"scm\", \"Name\":\"scm\", \"Tags\":\"[${domain}]\", \"Address\":\"${ilbIp}\", \"port\":\"443\"}" "http://${consul}:8500/v1/agent/service/register"
 }
 
 # Create 2 consul entries (service + scm)
