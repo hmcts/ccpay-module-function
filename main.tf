@@ -25,7 +25,7 @@ resource "azurerm_function_app" "funcapp" {
   name                      = "${var.function_app_name}"
   location                  = "${var.location}"
   resource_group_name       = "${var.resource_group_name}"
-  app_service_plan_id       = "${azurerm_app_service_plan.funcasp.id}"
+  app_service_plan_id       = "${var.asp_id}"
   storage_connection_string = "${azurerm_storage_account.funcsta.primary_connection_string}"
   version                   = "${var.function_version}"
   tags                      = "${var.common_tags}"
