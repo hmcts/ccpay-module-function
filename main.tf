@@ -21,19 +21,6 @@ resource "azurerm_storage_account" "funcsta" {
   tags                      ="${var.common_tags}"
 }
 
-resource "azurerm_app_service_plan" "funcasp" {
-  name                = "${local.app_service_plan_name}"
-  location            = "${var.location}"
-  resource_group_name = "${var.resource_group_name}"
-  kind                = "${lower(var.plan_type) == "consumption" ? "FunctionApp" : var.plan_settings["kind"]}"
-  sku {
-    tier     = "${lower(var.plan_type) == "consumption" ? "Dynamic" : "Standard"}"
-    size     = "${lower(var.plan_type) == "consumption" ? "Y1" : var.plan_settings["size"]}"
-    capacity = "${lower(var.plan_type) == "consumption" ? 0 : var.plan_settings["capacity"]}"
-  }
-  tags                      ="${var.common_tags}"
-}
-
 resource "azurerm_function_app" "funcapp" {
   name                      = "${var.function_app_name}"
   location                  = "${var.location}"
