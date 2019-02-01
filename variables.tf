@@ -19,10 +19,9 @@ variable "ilbIp" {
   default = "0.0.0.0"
 }
 
-// as of now, UK South is unavailable for Application Insights
 variable "appinsights_location" {
   type        = "string"
-  default     = "West Europe"
+  default     = "UK South"
   description = "Location for Application Insights"
 }
 

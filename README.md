@@ -4,6 +4,7 @@
 This terraform module deploys a Function App on a given app service plan (shared) in Azure.
 
 Creates following resources automatically
+- Resource group
 - Storage account
 - Function app
 
