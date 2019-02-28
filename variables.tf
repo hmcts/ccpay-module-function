@@ -1,3 +1,10 @@
+variable "product" {
+  type = "string"
+}
+
+variable "subscription" {
+  type = "string"
+}
 
 variable "location" {
   default     = "UK South"
@@ -8,16 +15,24 @@ variable "env" {
   description = "The environment where the infrastructure is deployed."
 }
 
-variable "resource_group_name" {
-  description = "The resource group where the resources should be created."
+variable "ilbIp" {
+  default = "0.0.0.0"
+}
+
+variable "appinsights_location" {
+  type        = "string"
+  default     = "UK South"
+  description = "Location for Application Insights"
+}
+
+variable "application_type" {
+  type        = "string"
+  default     = "Web"
+  description = "Type of Application Insights (Web/Other)"
 }
 
 variable "asp_resource_id" {
   description = "The resource id of the app service plan to use."
-}
-
-variable "function_app_name" {
-  description = "The name for the function app. Without environment naming."
 }
 
 variable "function_version" {
@@ -48,16 +63,6 @@ variable "app_settings_defaults" {
 variable "common_tags" {
   description = "A map of tags to add to all resources"
   type        = "map"
-}
-
-variable "storage_account_name" {
-  description = "The name of the storage account for WebJobs, default = $function_app_name"
-  default     = ""
-}
-
-variable "service_plan_name" {
-  description = "The name of the App Service Plan, default = $function_app_name"
-  default     = ""
 }
 
 variable "site_config" {

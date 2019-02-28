@@ -1,10 +1,19 @@
 locals {
-  storage_account_name = "${replace("${lower(("${var.resource_group_name}funcsta"))}", "/[^a-z0-9]/","")}"
+  storage_account_name = "${replace("${var.product}${var.env}", "-", "")}"
+  app_settings_evaluated = {
+    APPINSIGHTS_INSTRUMENTATIONKEY = "${azurerm_application_insights.appinsights.instrumentation_key}"
+  }
+}
+
+resource "azurerm_resource_group" "rg" {
+  name     = "${var.product}-${var.env}"
+  location = "${var.location}"
+  tags = "${var.common_tags}"
 }
 
 resource "azurerm_storage_account" "funcsta" {
   name                      = "${local.storage_account_name}"
-  resource_group_name       = "${var.resource_group_name}"
+  resource_group_name       = "${azurerm_resource_group.rg.name}"
   location                  = "${var.location}"
   account_replication_type  = "${var.account_replication_type}"
   account_tier              = "Standard"
@@ -12,17 +21,45 @@ resource "azurerm_storage_account" "funcsta" {
   enable_blob_encryption    = true
   enable_file_encryption    = true
   enable_https_traffic_only = true
-  tags                      ="${var.common_tags}"
+  tags                      = "${var.common_tags}"
+}
+
+resource "azurerm_application_insights" "appinsights" {
+  name                = "${var.product}-appinsights-${var.env}"
+  location            = "${var.appinsights_location}"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
+  application_type    = "${var.application_type}"
+
+  tags = "${merge(var.common_tags,
+    map("lastUpdated", "${timestamp()}")
+    )}"
 }
 
 resource "azurerm_function_app" "funcapp" {
-  name                      = "${var.function_app_name}"
+  name                      = "${var.product}-${var.env}"
   location                  = "${var.location}"
-  resource_group_name       = "${var.resource_group_name}"
+  resource_group_name       = "${azurerm_resource_group.rg.name}"
   app_service_plan_id       = "${var.asp_resource_id}"
   storage_connection_string = "${azurerm_storage_account.funcsta.primary_connection_string}"
   version                   = "${var.function_version}"
   tags                      = "${var.common_tags}"
-  app_settings              = "${merge(var.app_settings_defaults, var.app_settings)}"
+  app_settings              = "${merge(var.app_settings_defaults, local.app_settings_evaluated, var.app_settings)}"
   site_config               = "${var.site_config}"
+}
+
+resource "random_integer" "makeDNSupdateRunEachTime" {
+  min     = 1
+  max     = 99999
+}
+
+resource "null_resource" "consul" {
+  triggers {
+    trigger = "${azurerm_function_app.funcapp.name}",
+    forceRun = "${random_integer.makeDNSupdateRunEachTime.result}"
+  }
+
+  # register dns
+  provisioner "local-exec" {
+    command = "bash -e ${path.module}/createDns.sh '${var.product}-${var.env}' 'core-infra-${var.env}' '${path.module}' '${var.ilbIp}' '${var.subscription}'"
+  }
 }

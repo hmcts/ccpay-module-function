@@ -4,6 +4,7 @@
 This terraform module deploys a Function App on a given app service plan (shared) in Azure.
 
 Creates following resources automatically
+- Resource group
 - Storage account
 - Function app
 
@@ -14,8 +15,7 @@ module "function_app" {
   source = "git@github.com:hmcts/ccpay-module-function?ref=master"
   env = "${var.env}"
   location = "${var.location}"
-  function_app_name = "payment-node"
-  resource_group_name = "${var.resource_group_name}"
+  product = "${var.product}"
   account_replication_type = "LRS"
   app_service_plan_id = "${var.asp_resource_id}"
   common_tags = "${var.common_tags}"
@@ -28,13 +28,10 @@ module "function_app" {
 
 ### Inputs
 
-##### resource_group_name
-The resource group where the resources should be created.
-
 ##### location
 The azure datacenter location where the resources should be created.
 
-##### function_app_name
+##### product
 The name for the function app.
 
 ##### account_replication_type
